@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Respostas Recebidas | FormCraft Pro</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Remix Icon -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navegação -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="ri-survey-line"></i>
+          </div>
+          <div class="logo-text">
+            <span class="brand-name">FormCraft</span>
+            <span class="brand-tag">PRO</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item">
+          <i class="ri-questionnaire-line"></i>
+          <span>Banco de Perguntas</span>
+        </a>
+        <a href="formularios.html" class="nav-item">
+          <i class="ri-file-list-3-line"></i>
+          <span>Formulários</span>
+        </a>
+        <a href="respostas.html" class="nav-item active">
+          <i class="ri-bar-chart-box-line"></i>
+          <span>Respostas</span>
+        </a>
+        <a href="responder.html" class="nav-item">
+          <i class="ri-send-plane-fill"></i>
+          <span>Responder Form</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span>json-server Conectado</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h1>Consultar Respostas</h1>
+          <p>Visão administrativa dos dados e respostas enviadas pelos usuários</p>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <section class="view-section">
+          <!-- Card de Seleção do Formulário -->
+          <div class="form-selector-card card">
+            <div class="selector-content">
+              <i class="ri-survey-line selector-icon"></i>
+              <div class="selector-text">
+                <label for="select-formulario-resposta">Selecione o Formulário:</label>
+                <select id="select-formulario-resposta" class="select-input large">
+                  <option value="">-- Escolha um Formulário --</option>
+                  <option value="1">Pesquisa de Satisfação</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Estatísticas e Tabela -->
+          <div id="container-detalhes-respostas" class="responses-wrapper">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-icon bg-blue"><i class="ri-user-follow-line"></i></div>
+                <div class="stat-info">
+                  <span class="stat-value" id="stat-total-respostas">1</span>
+                  <span class="stat-label">Total de Respostas</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon bg-green"><i class="ri-checkbox-circle-line"></i></div>
+                <div class="stat-info">
+                  <span class="stat-value" id="stat-status-form">Publicado</span>
+                  <span class="stat-label">Status Atual</span>
+                </div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon bg-purple"><i class="ri-questionnaire-line"></i></div>
+                <div class="stat-info">
+                  <span class="stat-value" id="stat-qtd-perguntas">3</span>
+                  <span class="stat-label">Perguntas no Form</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card table-card">
+              <div class="table-header">
+                <h3><i class="ri-list-check"></i> Submissões Recebidas</h3>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Respondente</th>
+                      <th>E-mail</th>
+                      <th>Data de Envio</th>
+                      <th>Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tbody-respostas">
+                    <tr>
+                      <td>
+                        <div class="user-cell">
+                          <div class="avatar">MS</div>
+                          <span class="user-name">Maria Silva</span>
+                        </div>
+                      </td>
+                      <td>maria.silva@email.com</td>
+                      <td>10/07/2026 às 14:32</td>
+                      <td>
+                        <button type="button" class="btn btn-sm btn-outline btn-ver-detalhes-resposta">
+                          <i class="ri-eye-line"></i> Ver Respostas
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL: DETALHES DA RESPOSTA -->
+  <div class="modal-overlay" id="modal-detalhes-resposta">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3><i class="ri-user-search-line"></i> Resposta do Usuário</h3>
+        <button type="button" class="modal-close" id="close-modal-detalhes-resposta"><i class="ri-close-line"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="user-meta-banner">
+          <div class="user-avatar-lg">MS</div>
+          <div class="user-meta-info">
+            <h4 id="detalhe-resp-nome">Maria Silva</h4>
+            <p id="detalhe-resp-email"><i class="ri-mail-line"></i> maria.silva@email.com</p>
+            <span id="detalhe-resp-data" class="meta-date"><i class="ri-time-line"></i> 10/07/2026 às 14:32</span>
+          </div>
+        </div>
+
+        <hr class="form-divider">
+
+        <div id="container-respostas-usuario-detalhes" class="answers-details-list">
+          <div class="answer-detail-item">
+            <span class="answer-question-title">Qual sua linguagem de programação favorita?</span>
+            <div class="answer-value-badge">JavaScript</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-close-detalhes-resposta">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+</body>
+</html>

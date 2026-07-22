@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulários | FormCraft Pro</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Remix Icon -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navegação -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="ri-survey-line"></i>
+          </div>
+          <div class="logo-text">
+            <span class="brand-name">FormCraft</span>
+            <span class="brand-tag">PRO</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item">
+          <i class="ri-questionnaire-line"></i>
+          <span>Banco de Perguntas</span>
+        </a>
+        <a href="formularios.html" class="nav-item active">
+          <i class="ri-file-list-3-line"></i>
+          <span>Formulários</span>
+        </a>
+        <a href="respostas.html" class="nav-item">
+          <i class="ri-bar-chart-box-line"></i>
+          <span>Respostas</span>
+        </a>
+        <a href="responder.html" class="nav-item">
+          <i class="ri-send-plane-fill"></i>
+          <span>Responder Form</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span>json-server Conectado</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h1>Gestão de Formulários</h1>
+          <p>Monte questionários completos selecionando perguntas cadastradas</p>
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="btn btn-primary" id="btn-novo-formulario">
+            <i class="ri-add-line"></i>
+            <span>Novo Formulário</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <section class="view-section">
+          <!-- Barra de Filtro Redesenhada -->
+          <div class="filter-bar">
+            <div class="search-box">
+              <input type="text" id="search-formularios" placeholder="Buscar formulário por título...">
+              <i class="ri-search-line"></i>
+            </div>
+            <div class="filter-group">
+              <select id="filter-status-form" class="select-input">
+                <option value="">Todos os Status</option>
+                <option value="rascunho">Rascunho</option>
+                <option value="publicado">Publicado</option>
+                <option value="encerrado">Encerrado</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Cards de Formulários -->
+          <div class="cards-grid" id="container-formularios-list">
+            <article class="card form-card">
+              <div class="card-header">
+                <span class="badge badge-success">Publicado</span>
+                <span class="meta-questions-count"><i class="ri-question-line"></i> 3 perguntas</span>
+              </div>
+              <div class="card-body">
+                <h3 class="form-card-title">Pesquisa de Satisfação</h3>
+                <p class="form-card-desc">Avalie sua experiência com o nosso curso e estrutura de ensino.</p>
+                <div class="validity-box">
+                  <i class="ri-time-line"></i>
+                  <span>Vigência: 01/07/2026 - 01/08/2026</span>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="card-actions-full">
+                  <button type="button" class="btn btn-sm btn-secondary" title="Editar"><i class="ri-edit-line"></i> Editar</button>
+                  <a href="respostas.html" class="btn btn-sm btn-outline" title="Ver Respostas"><i class="ri-bar-chart-box-line"></i> Respostas</a>
+                  <a href="responder.html" class="btn btn-sm btn-primary-light" title="Responder"><i class="ri-external-link-line"></i> Abrir</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL: FORMULÁRIO -->
+  <div class="modal-overlay" id="modal-formulario">
+    <div class="modal-container modal-lg">
+      <div class="modal-header">
+        <h3 id="modal-formulario-title"><i class="ri-file-list-3-line"></i> Criar Novo Formulário</h3>
+        <button type="button" class="modal-close" id="close-modal-formulario"><i class="ri-close-line"></i></button>
+      </div>
+      <form id="form-formulario" class="modal-body" novalidate>
+        <input type="hidden" id="formulario-id">
+
+        <div class="form-group">
+          <label for="form-titulo" class="form-label required">Título do Formulário</label>
+          <input type="text" id="form-titulo" class="form-input" placeholder="Ex: Pesquisa de Satisfação" required>
+          <span class="field-error" id="error-form-titulo"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="form-descricao" class="form-label">Descrição (Opcional)</label>
+          <textarea id="form-descricao" class="form-input textarea-input" placeholder="Breve descrição do objetivo..." rows="3"></textarea>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label for="form-status" class="form-label required">Status</label>
+            <select id="form-status" class="select-input">
+              <option value="rascunho">Rascunho</option>
+              <option value="publicado">Publicado</option>
+              <option value="encerrado">Encerrado</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="form-data-inicio" class="form-label">Data de Início</label>
+            <input type="datetime-local" id="form-data-inicio" class="form-input">
+          </div>
+          <div class="form-group">
+            <label for="form-data-fim" class="form-label">Data de Fim</label>
+            <input type="datetime-local" id="form-data-fim" class="form-input">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required">Selecione as Perguntas (Mínimo 1)</label>
+          <div id="container-selecao-perguntas" class="questions-selector-list card-nested">
+            <label class="checkbox-select-item">
+              <input type="checkbox" name="perguntas_selecionadas" value="1">
+              <span class="custom-checkbox"></span>
+              <div class="select-item-content">
+                <span class="select-item-title">Qual sua linguagem de programação favorita?</span>
+                <span class="badge badge-sm badge-purple">Múltipla Escolha</span>
+              </div>
+            </label>
+          </div>
+          <span class="field-error" id="error-form-perguntas"></span>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btn-cancel-formulario">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar Formulário</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+</body>
+</html>

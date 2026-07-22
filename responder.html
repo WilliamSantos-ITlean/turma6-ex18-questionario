@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responder Formulário | FormCraft Pro</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Remix Icon -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navegação -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="ri-survey-line"></i>
+          </div>
+          <div class="logo-text">
+            <span class="brand-name">FormCraft</span>
+            <span class="brand-tag">PRO</span>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item">
+          <i class="ri-questionnaire-line"></i>
+          <span>Banco de Perguntas</span>
+        </a>
+        <a href="formularios.html" class="nav-item">
+          <i class="ri-file-list-3-line"></i>
+          <span>Formulários</span>
+        </a>
+        <a href="respostas.html" class="nav-item">
+          <i class="ri-bar-chart-box-line"></i>
+          <span>Respostas</span>
+        </a>
+        <a href="responder.html" class="nav-item active">
+          <i class="ri-send-plane-fill"></i>
+          <span>Responder Form</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span>json-server Conectado</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h1>Responder Questionário</h1>
+          <p>Visão pública do formulário para preenchimento de respostas</p>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <section class="view-section">
+          <div class="public-form-container">
+            <div class="public-form-card card">
+              <div class="public-form-header">
+                <div class="public-badge"><i class="ri-survey-line"></i> Questionário Público</div>
+                <h2 id="public-form-titulo">Pesquisa de Satisfação</h2>
+                <p id="public-form-descricao">Avalie sua experiência com o nosso curso e estrutura de ensino.</p>
+              </div>
+
+              <form id="form-responder" class="public-form-body" novalidate>
+                <!-- Identificação do Respondente -->
+                <div class="respondent-section">
+                  <h4 class="section-subtitle"><i class="ri-user-line"></i> Identificação</h4>
+                  <div class="form-grid-2">
+                    <div class="form-group">
+                      <label for="resp-nome" class="form-label required">Seu Nome Completo</label>
+                      <input type="text" id="resp-nome" class="form-input" placeholder="Ex: Maria Silva" required>
+                      <span class="field-error" id="error-resp-nome"></span>
+                    </div>
+                    <div class="form-group">
+                      <label for="resp-email" class="form-label required">Seu E-mail</label>
+                      <input type="email" id="resp-email" class="form-input" placeholder="exemplo@email.com" required>
+                      <span class="field-error" id="error-resp-email"></span>
+                    </div>
+                  </div>
+                </div>
+
+                <hr class="form-divider">
+
+                <!-- Lista de Perguntas -->
+                <div id="container-perguntas-responder" class="questions-render-list">
+                  <div class="question-render-item card-nested">
+                    <div class="question-render-header">
+                      <span class="question-number">1</span>
+                      <h4 class="question-render-text">Qual sua linguagem de programação favorita? <span class="required-asterisk">*</span></h4>
+                    </div>
+                    <div class="options-group">
+                      <label class="custom-option">
+                        <input type="radio" name="pergunta_1" value="JavaScript">
+                        <span class="option-box"></span>
+                        <span class="option-text">JavaScript</span>
+                      </label>
+                      <label class="custom-option">
+                        <input type="radio" name="pergunta_1" value="Python">
+                        <span class="option-box"></span>
+                        <span class="option-text">Python</span>
+                      </label>
+                      <label class="custom-option">
+                        <input type="radio" name="pergunta_1" value="Java">
+                        <span class="option-box"></span>
+                        <span class="option-text">Java</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="public-form-actions">
+                  <button type="submit" class="btn btn-primary btn-lg btn-block" id="btn-submeter-resposta">
+                    <i class="ri-send-plane-fill"></i> Enviar Respostas
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+</body>
+</html>

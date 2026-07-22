@@ -1,0 +1,70 @@
+{
+  "perguntas": [
+    {
+      "id": "1",
+      "enunciado": "Qual sua linguagem de programação favorita?",
+      "tipo": "multipla_escolha",
+      "obrigatoria": true,
+      "alternativas": ["JavaScript", "Python", "Java", "C#"],
+      "criadaEm": "2026-07-01T10:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "enunciado": "Descreva sua experiência prévia com desenvolvimento web.",
+      "tipo": "texto_longo",
+      "obrigatoria": true,
+      "criadaEm": "2026-07-02T11:30:00.000Z"
+    },
+    {
+      "id": "3",
+      "enunciado": "Quais tecnologias/frameworks você tem interesse em aprender?",
+      "tipo": "checkbox",
+      "obrigatoria": false,
+      "alternativas": ["React", "Vue.js", "Angular", "Node.js"],
+      "criadaEm": "2026-07-03T14:15:00.000Z"
+    },
+    {
+      "id": "4",
+      "enunciado": "Qual o seu cargo atual?",
+      "tipo": "texto_curto",
+      "obrigatoria": true,
+      "criadaEm": "2026-07-04T09:00:00.000Z"
+    }
+  ],
+  "formularios": [
+    {
+      "id": "1",
+      "titulo": "Pesquisa de Satisfação",
+      "descricao": "Avalie sua experiência com o nosso curso e estrutura de ensino.",
+      "perguntas": ["1", "2", "3"],
+      "status": "publicado",
+      "dataInicio": "2026-07-01T00:00:00.000Z",
+      "dataFim": "2026-08-01T00:00:00.000Z",
+      "criadoEm": "2026-06-30T09:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "titulo": "Mapeamento de Perfil Dev",
+      "descricao": "Formulário interno para entender o nível da turma.",
+      "perguntas": ["1", "4"],
+      "status": "rascunho",
+      "dataInicio": null,
+      "dataFim": null,
+      "criadoEm": "2026-07-05T15:20:00.000Z"
+    }
+  ],
+  "respostas": [
+    {
+      "id": "1",
+      "formularioId": "1",
+      "nome": "Maria Silva",
+      "email": "maria.silva@email.com",
+      "respostas": [
+        { "perguntaId": "1", "valor": "JavaScript" },
+        { "perguntaId": "2", "valor": "Estudei HTML e CSS recentemente e agora estou focando em JavaScript." },
+        { "perguntaId": "3", "valor": ["React", "Node.js"] }
+      ],
+      "enviadoEm": "2026-07-10T14:32:00.000Z"
+    }
+  ]
+}
