@@ -5,7 +5,7 @@
       "enunciado": "Qual sua linguagem de programação favorita?",
       "tipo": "multipla_escolha",
       "obrigatoria": true,
-      "alternativas": ["JavaScript", "Python", "Java", "C#"],
+      "alternativas": ["JavaScript", "Python", "Java", "C#", "TypeScript", "Go"],
       "criadaEm": "2026-07-01T10:00:00.000Z"
     },
     {
@@ -17,40 +17,73 @@
     },
     {
       "id": "3",
-      "enunciado": "Quais tecnologias/frameworks você tem interesse em aprender?",
+      "enunciado": "Quais tecnologias e ferramentas você utiliza no seu dia a dia?",
       "tipo": "checkbox",
       "obrigatoria": false,
-      "alternativas": ["React", "Vue.js", "Angular", "Node.js"],
+      "alternativas": ["Git & GitHub", "VS Code", "Docker", "Figma", "Postman", "Linux"],
       "criadaEm": "2026-07-03T14:15:00.000Z"
     },
     {
       "id": "4",
-      "enunciado": "Qual o seu cargo atual?",
+      "enunciado": "Qual o seu cargo ou função atual?",
       "tipo": "texto_curto",
       "obrigatoria": true,
       "criadaEm": "2026-07-04T09:00:00.000Z"
+    },
+    {
+      "id": "5",
+      "enunciado": "Como você avalia o ritmo e o conteúdo das aulas de Front-end?",
+      "tipo": "multipla_escolha",
+      "obrigatoria": true,
+      "alternativas": ["Excelente", "Muito Bom", "Razoável", "Precisa Melhorar"],
+      "criadaEm": "2026-07-05T16:45:00.000Z"
+    },
+    {
+      "id": "6",
+      "enunciado": "Quais áreas de especialização você pretende seguir como desenvolvedor Junior?",
+      "tipo": "checkbox",
+      "obrigatoria": true,
+      "alternativas": ["Front-end Web", "Back-end Node.js", "Fullstack", "Mobile (React Native)", "DevOps"],
+      "criadaEm": "2026-07-06T08:20:00.000Z"
+    },
+    {
+      "id": "7",
+      "enunciado": "Deixe sugestões ou comentários de melhoria para o programa de trainee.",
+      "tipo": "texto_longo",
+      "obrigatoria": false,
+      "criadaEm": "2026-07-07T13:10:00.000Z"
     }
   ],
   "formularios": [
     {
       "id": "1",
-      "titulo": "Pesquisa de Satisfação",
-      "descricao": "Avalie sua experiência com o nosso curso e estrutura de ensino.",
-      "perguntas": ["1", "2", "3"],
+      "titulo": "Pesquisa de Satisfação do Aluno",
+      "descricao": "Avalie sua experiência geral com as aulas, instrutores e estrutura de ensino.",
+      "perguntas": ["1", "2", "5", "7"],
       "status": "publicado",
       "dataInicio": "2026-07-01T00:00:00.000Z",
-      "dataFim": "2026-08-01T00:00:00.000Z",
+      "dataFim": "2026-08-15T23:59:59.000Z",
       "criadoEm": "2026-06-30T09:00:00.000Z"
     },
     {
       "id": "2",
-      "titulo": "Mapeamento de Perfil Dev",
-      "descricao": "Formulário interno para entender o nível da turma.",
-      "perguntas": ["1", "4"],
+      "titulo": "Mapeamento de Perfil Técnico Dev",
+      "descricao": "Formulário interno para mapear conhecimentos prévios e ferramentas da turma.",
+      "perguntas": ["1", "3", "4", "6"],
       "status": "rascunho",
       "dataInicio": null,
       "dataFim": null,
       "criadoEm": "2026-07-05T15:20:00.000Z"
+    },
+    {
+      "id": "3",
+      "titulo": "Avaliação de Entrada no Programa Trainee",
+      "descricao": "Questionário inicial aplicado no primeiro mês de curso.",
+      "perguntas": ["2", "4"],
+      "status": "encerrado",
+      "dataInicio": "2026-06-01T00:00:00.000Z",
+      "dataFim": "2026-06-30T23:59:59.000Z",
+      "criadoEm": "2026-05-28T10:00:00.000Z"
     }
   ],
   "respostas": [
@@ -61,10 +94,35 @@
       "email": "maria.silva@email.com",
       "respostas": [
         { "perguntaId": "1", "valor": "JavaScript" },
-        { "perguntaId": "2", "valor": "Estudei HTML e CSS recentemente e agora estou focando em JavaScript." },
-        { "perguntaId": "3", "valor": ["React", "Node.js"] }
+        { "perguntaId": "2", "valor": "Estudei Análise e Desenvolvimento de Sistemas e fiz projetos acadêmicos com HTML e CSS." },
+        { "perguntaId": "5", "valor": "Excelente" },
+        { "perguntaId": "7", "valor": "Gostaria de mais aulas práticas focadas em consumo de APIs REST." }
       ],
       "enviadoEm": "2026-07-10T14:32:00.000Z"
+    },
+    {
+      "id": "2",
+      "formularioId": "1",
+      "nome": "João Santos",
+      "email": "joao.santos@email.com",
+      "respostas": [
+        { "perguntaId": "1", "valor": "TypeScript" },
+        { "perguntaId": "2", "valor": "Trabalhei criando páginas estáticas e Landing Pages antes de entrar no programa." },
+        { "perguntaId": "5", "valor": "Muito Bom" },
+        { "perguntaId": "7", "valor": "Sem sugestões no momento, o curso está ótimo!" }
+      ],
+      "enviadoEm": "2026-07-12T09:15:00.000Z"
+    },
+    {
+      "id": "3",
+      "formularioId": "3",
+      "nome": "Ana Oliveira",
+      "email": "ana.oliveira@email.com",
+      "respostas": [
+        { "perguntaId": "2", "valor": "Sou iniciante total em programação, estou aprendendo lógica e JavaScript agora." },
+        { "perguntaId": "4", "valor": "Desenvolvedora Trainee" }
+      ],
+      "enviadoEm": "2026-06-25T17:40:00.000Z"
     }
   ]
 }
