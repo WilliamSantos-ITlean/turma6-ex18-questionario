@@ -29,9 +29,16 @@
             <span class="brand-tag">PRO</span>
           </div>
         </div>
+        <button type="button" class="mobile-toggle-btn" id="mobile-menu-toggle" aria-label="Abrir Menu">
+          <i class="ri-menu-line"></i>
+        </button>
       </div>
 
       <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <i class="ri-dashboard-3-line"></i>
+          <span>Dashboard</span>
+        </a>
         <a href="index.html" class="nav-item">
           <i class="ri-questionnaire-line"></i>
           <span>Banco de Perguntas</span>
@@ -93,27 +100,6 @@
 
           <!-- Cards de Formulários -->
           <div class="cards-grid" id="container-formularios-list">
-            <article class="card form-card">
-              <div class="card-header">
-                <span class="badge badge-success">Publicado</span>
-                <span class="meta-questions-count"><i class="ri-question-line"></i> 3 perguntas</span>
-              </div>
-              <div class="card-body">
-                <h3 class="form-card-title">Pesquisa de Satisfação</h3>
-                <p class="form-card-desc">Avalie sua experiência com o nosso curso e estrutura de ensino.</p>
-                <div class="validity-box">
-                  <i class="ri-time-line"></i>
-                  <span>Vigência: 01/07/2026 - 01/08/2026</span>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="card-actions-full">
-                  <button type="button" class="btn btn-sm btn-secondary" title="Editar"><i class="ri-edit-line"></i> Editar</button>
-                  <a href="respostas.html" class="btn btn-sm btn-outline" title="Ver Respostas"><i class="ri-bar-chart-box-line"></i> Respostas</a>
-                  <a href="responder.html" class="btn btn-sm btn-primary-light" title="Responder"><i class="ri-external-link-line"></i> Abrir</a>
-                </div>
-              </div>
-            </article>
           </div>
         </section>
       </div>
@@ -153,24 +139,18 @@
           <div class="form-group">
             <label for="form-data-inicio" class="form-label">Data de Início</label>
             <input type="datetime-local" id="form-data-inicio" class="form-input">
+            <span class="field-error" id="error-form-data-inicio"></span>
           </div>
           <div class="form-group">
             <label for="form-data-fim" class="form-label">Data de Fim</label>
             <input type="datetime-local" id="form-data-fim" class="form-input">
+            <span class="field-error" id="error-form-data-fim"></span>
           </div>
         </div>
 
         <div class="form-group">
           <label class="form-label required">Selecione as Perguntas (Mínimo 1)</label>
           <div id="container-selecao-perguntas" class="questions-selector-list card-nested">
-            <label class="checkbox-select-item">
-              <input type="checkbox" name="perguntas_selecionadas" value="1">
-              <span class="custom-checkbox"></span>
-              <div class="select-item-content">
-                <span class="select-item-title">Qual sua linguagem de programação favorita?</span>
-                <span class="badge badge-sm badge-purple">Múltipla Escolha</span>
-              </div>
-            </label>
           </div>
           <span class="field-error" id="error-form-perguntas"></span>
         </div>
@@ -184,5 +164,6 @@
   </div>
 
   <div id="toast-container" class="toast-container"></div>
+  <script src="formularios.js"></script>
 </body>
 </html>

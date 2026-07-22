@@ -29,9 +29,16 @@
             <span class="brand-tag">PRO</span>
           </div>
         </div>
+        <button type="button" class="mobile-toggle-btn" id="mobile-menu-toggle" aria-label="Abrir Menu">
+          <i class="ri-menu-line"></i>
+        </button>
       </div>
 
       <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <i class="ri-dashboard-3-line"></i>
+          <span>Dashboard</span>
+        </a>
         <a href="index.html" class="nav-item">
           <i class="ri-questionnaire-line"></i>
           <span>Banco de Perguntas</span>
@@ -73,8 +80,19 @@
             <div class="public-form-card card">
               <div class="public-form-header">
                 <div class="public-badge"><i class="ri-survey-line"></i> Questionário Público</div>
-                <h2 id="public-form-titulo">Pesquisa de Satisfação</h2>
-                <p id="public-form-descricao">Avalie sua experiência com o nosso curso e estrutura de ensino.</p>
+                <h2 id="public-form-titulo">Selecione um Formulário</h2>
+                <p id="public-form-descricao">Carregando questionário...</p>
+
+                <!-- Barra de Progresso de Preenchimento -->
+                <div class="progress-bar-wrapper" id="progress-wrapper" style="margin-top: 1.25rem;">
+                  <div class="progress-info">
+                    <span>Progresso do Preenchimento</span>
+                    <span id="progress-percentage-text">0% Concluído</span>
+                  </div>
+                  <div class="progress-track">
+                    <div class="progress-fill" id="progress-fill"></div>
+                  </div>
+                </div>
               </div>
 
               <form id="form-responder" class="public-form-body" novalidate>
@@ -97,31 +115,8 @@
 
                 <hr class="form-divider">
 
-                <!-- Lista de Perguntas -->
+                <!-- Lista de Perguntas Renderizadas Dinamicamente -->
                 <div id="container-perguntas-responder" class="questions-render-list">
-                  <div class="question-render-item card-nested">
-                    <div class="question-render-header">
-                      <span class="question-number">1</span>
-                      <h4 class="question-render-text">Qual sua linguagem de programação favorita? <span class="required-asterisk">*</span></h4>
-                    </div>
-                    <div class="options-group">
-                      <label class="custom-option">
-                        <input type="radio" name="pergunta_1" value="JavaScript">
-                        <span class="option-box"></span>
-                        <span class="option-text">JavaScript</span>
-                      </label>
-                      <label class="custom-option">
-                        <input type="radio" name="pergunta_1" value="Python">
-                        <span class="option-box"></span>
-                        <span class="option-text">Python</span>
-                      </label>
-                      <label class="custom-option">
-                        <input type="radio" name="pergunta_1" value="Java">
-                        <span class="option-box"></span>
-                        <span class="option-text">Java</span>
-                      </label>
-                    </div>
-                  </div>
                 </div>
 
                 <div class="public-form-actions">
@@ -138,5 +133,6 @@
   </div>
 
   <div id="toast-container" class="toast-container"></div>
+  <script src="responder.js"></script>
 </body>
 </html>

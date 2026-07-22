@@ -1,4 +1,4 @@
-// script.js - Banco de Perguntas, Modal e Filtros
+// perguntas.js - Banco de Perguntas, Modal, Filtros e Regras de Negócio 7 e 8
 
 let todasAsPerguntas = [];
 
@@ -36,14 +36,8 @@ function aplicarFiltrosPerguntas() {
     renderQuestions(perguntasFiltradas);
 }
 
-// Event Listeners para Filtros
-if (inputBuscaPergunta) {
-    inputBuscaPergunta.addEventListener('input', aplicarFiltrosPerguntas);
-}
-
-if (selectFiltroTipo) {
-    selectFiltroTipo.addEventListener('change', aplicarFiltrosPerguntas);
-}
+if (inputBuscaPergunta) inputBuscaPergunta.addEventListener('input', aplicarFiltrosPerguntas);
+if (selectFiltroTipo) selectFiltroTipo.addEventListener('change', aplicarFiltrosPerguntas);
 
 // ==========================================
 // 3. RENDERIZAÇÃO DOS CARDS
@@ -141,13 +135,34 @@ function renderQuestions(perguntas) {
 }
 
 // ==========================================
-// 4. EXCLUSÃO DE PERGUNTA
+// 4. EXCLUSÃO DE PERGUNTA (REGRA DE NEGÓCIO 7)
 // ==========================================
 
 async function excluirPergunta(id) {
-    if (!confirm('Deseja realmente excluir esta pergunta?')) return;
-
     try {
+        // Regra 7: Verifica se a pergunta está vinculada a algum formulário que possui respostas
+        const [resForms, resRespostas] = await Promise.all([
+            fetch('http://localhost:3000/formularios'),
+            fetch('http://localhost:3000/respostas')
+        ]);
+
+        const formularios = await resForms.json();
+        const respostas = await resRespostas.json();
+
+        // Formulários que contêm esta pergunta
+        const formsComPergunta = formularios.filter(f => f.perguntas && f.perguntas.includes(String(id)));
+        const formsIds = formsComPergunta.map(f => String(f.id));
+
+        // Checar se há respostas para algum desses formulários
+        const temRespostasVinculadas = respostas.some(r => formsIds.includes(String(r.formularioId)));
+
+        if (temRespostasVinculadas) {
+            alert('Atenção: Esta pergunta possui respostas vinculadas a um ou mais formulários e não pode ser excluída fisicamente para preservar o histórico.');
+            return;
+        }
+
+        if (!confirm('Deseja realmente excluir esta pergunta?')) return;
+
         const response = await fetch(`http://localhost:3000/perguntas/${id}`, {
             method: 'DELETE'
         });
@@ -182,6 +197,7 @@ function abrirModal() {
     formPergunta.reset();
     document.getElementById('pergunta-id').value = '';
     document.getElementById('modal-pergunta-title').innerHTML = '<i class="ri-questionnaire-line"></i> Cadastrar Nova Pergunta';
+    selectTipo.disabled = false;
     limparErros();
     atualizarSecaoAlternativas();
     if (modalPergunta) modalPergunta.classList.add('active');
@@ -190,6 +206,7 @@ function abrirModal() {
 function fecharModal() {
     if (modalPergunta) modalPergunta.classList.remove('active');
     formPergunta.reset();
+    selectTipo.disabled = false;
     limparErros();
 }
 
@@ -335,10 +352,23 @@ async function salvarPergunta(event) {
     }
 }
 
+// Preparar Edição com Regra de Negócio 8
 async function prepararEdicao(id) {
     try {
-        const response = await fetch(`http://localhost:3000/perguntas/${id}`);
-        const pergunta = await response.json();
+        const [resPergunta, resForms, resRespostas] = await Promise.all([
+            fetch(`http://localhost:3000/perguntas/${id}`),
+            fetch('http://localhost:3000/formularios'),
+            fetch('http://localhost:3000/respostas')
+        ]);
+
+        const pergunta = await resPergunta.json();
+        const formularios = await resForms.json();
+        const respostas = await resRespostas.json();
+
+        // Checar Regra 8: Pergunta já respondida em formulário publicado
+        const formsComPergunta = formularios.filter(f => f.perguntas && f.perguntas.includes(String(id)));
+        const formsIds = formsComPergunta.map(f => String(f.id));
+        const temRespostas = respostas.some(r => formsIds.includes(String(r.formularioId)));
 
         abrirModal();
         document.getElementById('modal-pergunta-title').innerHTML = '<i class="ri-edit-line"></i> Editar Pergunta';
@@ -346,6 +376,11 @@ async function prepararEdicao(id) {
         document.getElementById('pergunta-enunciado').value = pergunta.enunciado;
         document.getElementById('pergunta-tipo').value = pergunta.tipo;
         document.getElementById('pergunta-obrigatoria').checked = pergunta.obrigatoria;
+
+        // Se já foi respondida, bloqueia alteração de tipo para não corromper respostas existentes (Regra 8)
+        if (temRespostas) {
+            selectTipo.disabled = true;
+        }
 
         atualizarSecaoAlternativas();
 
@@ -382,4 +417,21 @@ window.addEventListener('click', (e) => {
 });
 
 // Inicialização
-document.addEventListener('DOMContentLoaded', carregarPerguntas);
+document.addEventListener('DOMContentLoaded', () => {
+    carregarPerguntas();
+    inicializarMenuMobile();
+});
+
+function inicializarMenuMobile() {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('mobile-open');
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+                icon.className = sidebar.classList.contains('mobile-open') ? 'ri-close-line' : 'ri-menu-line';
+            }
+        });
+    }
+}

@@ -1,185 +1,182 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banco de Perguntas | FormCraft Pro</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banco de Perguntas | FormCraft Pro</title>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Remix Icon -->
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <!-- Remix Icon -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="app-layout">
-        <!-- Sidebar Navegação -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <div class="logo-icon">
-                        <i class="ri-survey-line"></i>
-                    </div>
-                    <div class="logo-text">
-                        <span class="brand-name">FormCraft</span>
-                        <span class="brand-tag">PRO</span>
-                    </div>
-                </div>
-            </div>
-
-            <nav class="sidebar-nav">
-                <a href="index.html" class="nav-item active">
-                    <i class="ri-questionnaire-line"></i>
-                    <span>Banco de Perguntas</span>
-                </a>
-                <a href="formularios.html" class="nav-item">
-                    <i class="ri-file-list-3-line"></i>
-                    <span>Formulários</span>
-                </a>
-                <a href="respostas.html" class="nav-item">
-                    <i class="ri-bar-chart-box-line"></i>
-                    <span>Respostas</span>
-                </a>
-                <a href="responder.html" class="nav-item">
-                    <i class="ri-send-plane-fill"></i>
-                    <span>Responder Form</span>
-                </a>
-            </nav>
-
-            <div class="sidebar-footer">
-                <div class="system-status">
-                    <span class="status-dot"></span>
-                    <span>json-server Conectado</span>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Conteúdo Principal -->
-        <main class="main-content">
-            <header class="topbar">
-                <div class="topbar-title">
-                    <h1>Banco de Perguntas</h1>
-                    <p>Crie e gerencie perguntas reutilizáveis para compor seus formulários</p>
-                </div>
-                <div class="topbar-actions">
-                    <button type="button" class="btn btn-primary" id="btn-nova-pergunta">
-                        <i class="ri-add-line"></i>
-                        <span>Nova Pergunta</span>
-                    </button>
-                </div>
-            </header>
-
-            <div class="content-body">
-                <section class="view-section">
-                    <!-- Barra de Filtro Elegante -->
-                    <div class="filter-bar">
-                        <div class="search-box">
-                            <input type="text" id="search-perguntas" placeholder="Buscar pergunta por palavra-chave...">
-                            <i class="ri-search-line"></i>
-                        </div>
-                        <div class="filter-group">
-                            <select id="filter-tipo-pergunta" class="select-input">
-                                <option value="">Todos os Tipos</option>
-                                <option value="multipla_escolha">Múltipla Escolha</option>
-                                <option value="texto_curto">Texto Curto</option>
-                                <option value="texto_longo">Texto Longo</option>
-                                <option value="checkbox">Checkbox</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Lista de Perguntas (Grid) -->
-                    <div class="cards-grid" id="container-perguntas-list">
-                        <!-- Card Exemplo -->
-
-                    </div>
-                </section>
-            </div>
-        </main>
-    </div>
-
-    <!-- MODAL: PERGUNTA -->
-    <div class="modal-overlay" id="modal-pergunta">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h3 id="modal-pergunta-title"><i class="ri-questionnaire-line"></i> Cadastrar Nova Pergunta</h3>
-                <button type="button" class="modal-close" id="close-modal-pergunta"><i
-                        class="ri-close-line"></i></button>
-            </div>
-            <form id="form-pergunta" class="modal-body" novalidate>
-                <input type="hidden" id="pergunta-id">
-
-                <div class="form-group">
-                    <label for="pergunta-enunciado" class="form-label required">Enunciado da Pergunta</label>
-                    <input type="text" id="pergunta-enunciado" class="form-input"
-                        placeholder="Digite o enunciado da pergunta..." required>
-                    <span class="field-error" id="error-pergunta-enunciado"></span>
-                </div>
-
-                <div class="form-grid-2">
-                    <div class="form-group">
-                        <label for="pergunta-tipo" class="form-label required">Tipo de Pergunta</label>
-                        <select id="pergunta-tipo" class="select-input" required>
-                            <option value="multipla_escolha">Múltipla Escolha</option>
-                            <option value="texto_curto">Texto Curto (até 200 chars)</option>
-                            <option value="texto_longo">Texto Longo (sem limite)</option>
-                            <option value="checkbox">Checkbox (Múltiplas Seleções)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group form-group-checkbox-inline">
-                        <label class="custom-toggle-label">
-                            <input type="checkbox" id="pergunta-obrigatoria" checked>
-                            <span class="toggle-switch"></span>
-                            <span class="toggle-text">Pergunta Obrigatória</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div id="section-alternativas" class="alternatives-wrapper">
-                    <div class="alternatives-header">
-                        <label class="form-label required">Alternativas</label>
-                        <span class="hint-text" id="alternativas-hint">Mínimo 2, Máximo 10 alternativas</span>
-                    </div>
-
-                    <div id="container-alternativas-inputs" class="alternatives-list">
-                        <div class="alternative-input-row">
-                            <span class="drag-handle"><i class="ri-more-2-fill"></i></span>
-                            <input type="text" class="form-input alt-item" placeholder="Opção 1">
-                            <button type="button" class="btn-icon btn-icon-danger btn-remove-alt"><i
-                                    class="ri-subtract-line"></i></button>
-                        </div>
-                        <div class="alternative-input-row">
-                            <span class="drag-handle"><i class="ri-more-2-fill"></i></span>
-                            <input type="text" class="form-input alt-item" placeholder="Opção 2">
-                            <button type="button" class="btn-icon btn-icon-danger btn-remove-alt"><i
-                                    class="ri-subtract-line"></i></button>
-                        </div>
-                    </div>
-
-                    <button type="button" class="btn btn-secondary btn-sm" id="btn-add-alternativa">
-                        <i class="ri-add-line"></i> Adicionar Alternativa
-                    </button>
-                    <span class="field-error" id="error-alternativas"></span>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" id="btn-cancel-pergunta">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar Pergunta</button>
-                </div>
-            </form>
+  <div class="app-layout">
+    <!-- Sidebar Navegação -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="ri-survey-line"></i>
+          </div>
+          <div class="logo-text">
+            <span class="brand-name">FormCraft</span>
+            <span class="brand-tag">PRO</span>
+          </div>
         </div>
+        <button type="button" class="mobile-toggle-btn" id="mobile-menu-toggle" aria-label="Abrir Menu">
+          <i class="ri-menu-line"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <i class="ri-dashboard-3-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="index.html" class="nav-item active">
+          <i class="ri-questionnaire-line"></i>
+          <span>Banco de Perguntas</span>
+        </a>
+        <a href="formularios.html" class="nav-item">
+          <i class="ri-file-list-3-line"></i>
+          <span>Formulários</span>
+        </a>
+        <a href="respostas.html" class="nav-item">
+          <i class="ri-bar-chart-box-line"></i>
+          <span>Respostas</span>
+        </a>
+        <a href="responder.html" class="nav-item">
+          <i class="ri-send-plane-fill"></i>
+          <span>Responder Form</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span>json-server Conectado</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h1>Banco de Perguntas</h1>
+          <p>Crie e gerencie perguntas reutilizáveis para compor seus formulários</p>
+        </div>
+        <div class="topbar-actions">
+          <button type="button" class="btn btn-primary" id="btn-nova-pergunta">
+            <i class="ri-add-line"></i>
+            <span>Nova Pergunta</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <section class="view-section">
+          <!-- Barra de Filtro Elegante -->
+          <div class="filter-bar">
+            <div class="search-box">
+              <input type="text" id="search-perguntas" placeholder="Buscar pergunta por palavra-chave...">
+              <i class="ri-search-line"></i>
+            </div>
+            <div class="filter-group">
+              <select id="filter-tipo-pergunta" class="select-input">
+                <option value="">Todos os Tipos</option>
+                <option value="multipla_escolha">Múltipla Escolha</option>
+                <option value="texto_curto">Texto Curto</option>
+                <option value="texto_longo">Texto Longo</option>
+                <option value="checkbox">Checkbox</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Lista de Perguntas (Grid) -->
+          <div class="cards-grid" id="container-perguntas-list">
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL: PERGUNTA -->
+  <div class="modal-overlay" id="modal-pergunta">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="modal-pergunta-title"><i class="ri-questionnaire-line"></i> Cadastrar Nova Pergunta</h3>
+        <button type="button" class="modal-close" id="close-modal-pergunta"><i class="ri-close-line"></i></button>
+      </div>
+      <form id="form-pergunta" class="modal-body" novalidate>
+        <input type="hidden" id="pergunta-id">
+
+        <div class="form-group">
+          <label for="pergunta-enunciado" class="form-label required">Enunciado da Pergunta</label>
+          <input type="text" id="pergunta-enunciado" class="form-input" placeholder="Digite o enunciado da pergunta..." required>
+          <span class="field-error" id="error-pergunta-enunciado"></span>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="pergunta-tipo" class="form-label required">Tipo de Pergunta</label>
+            <select id="pergunta-tipo" class="select-input" required>
+              <option value="multipla_escolha">Múltipla Escolha</option>
+              <option value="texto_curto">Texto Curto (até 200 chars)</option>
+              <option value="texto_longo">Texto Longo (sem limite)</option>
+              <option value="checkbox">Checkbox (Múltiplas Seleções)</option>
+            </select>
+          </div>
+
+          <div class="form-group form-group-checkbox-inline">
+            <label class="custom-toggle-label">
+              <input type="checkbox" id="pergunta-obrigatoria" checked>
+              <span class="toggle-switch"></span>
+              <span class="toggle-text">Pergunta Obrigatória</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="section-alternativas" class="alternatives-wrapper">
+          <div class="alternatives-header">
+            <label class="form-label required">Alternativas</label>
+            <span class="hint-text" id="alternativas-hint">Mínimo 2, Máximo 10 alternativas</span>
+          </div>
+
+          <div id="container-alternativas-inputs" class="alternatives-list">
+            <div class="alternative-input-row">
+              <span class="drag-handle"><i class="ri-more-2-fill"></i></span>
+              <input type="text" class="form-input alt-item" placeholder="Opção 1">
+              <button type="button" class="btn-icon btn-icon-danger btn-remove-alt"><i class="ri-subtract-line"></i></button>
+            </div>
+            <div class="alternative-input-row">
+              <span class="drag-handle"><i class="ri-more-2-fill"></i></span>
+              <input type="text" class="form-input alt-item" placeholder="Opção 2">
+              <button type="button" class="btn-icon btn-icon-danger btn-remove-alt"><i class="ri-subtract-line"></i></button>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-add-alternativa">
+            <i class="ri-add-line"></i> Adicionar Alternativa
+          </button>
+          <span class="field-error" id="error-alternativas"></span>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="btn-cancel-pergunta">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar Pergunta</button>
+        </div>
+      </form>
     </div>
+  </div>
 
-    <div id="toast-container" class="toast-container"></div>
-    <script src="perguntas.js"></script>
+  <div id="toast-container" class="toast-container"></div>
+  <script src="perguntas.js"></script>
 </body>
-
 </html>

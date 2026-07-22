@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard & Analytics | FormCraft Pro</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Remix Icon -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Navegação -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="ri-survey-line"></i>
+          </div>
+          <div class="logo-text">
+            <span class="brand-name">FormCraft</span>
+            <span class="brand-tag">PRO</span>
+          </div>
+        </div>
+        <button type="button" class="mobile-toggle-btn" id="mobile-menu-toggle" aria-label="Abrir Menu">
+          <i class="ri-menu-line"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item active">
+          <i class="ri-dashboard-3-line"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="index.html" class="nav-item">
+          <i class="ri-questionnaire-line"></i>
+          <span>Banco de Perguntas</span>
+        </a>
+        <a href="formularios.html" class="nav-item">
+          <i class="ri-file-list-3-line"></i>
+          <span>Formulários</span>
+        </a>
+        <a href="respostas.html" class="nav-item">
+          <i class="ri-bar-chart-box-line"></i>
+          <span>Respostas</span>
+        </a>
+        <a href="responder.html" class="nav-item">
+          <i class="ri-send-plane-fill"></i>
+          <span>Responder Form</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span>json-server Conectado</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-title">
+          <h1>Dashboard & Métricas</h1>
+          <p>Visão panorâmica em tempo real do sistema de questionários</p>
+        </div>
+      </header>
+
+      <div class="content-body">
+        <section class="view-section">
+          <!-- 1. CARDS DE MÉTRICAS PRINCIPAIS -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon bg-blue"><i class="ri-survey-line"></i></div>
+              <div class="stat-info">
+                <span class="stat-value" id="dash-total-formularios">0</span>
+                <span class="stat-label">Total de Formulários</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon bg-green"><i class="ri-checkbox-circle-line"></i></div>
+              <div class="stat-info">
+                <span class="stat-value" id="dash-total-respostas">0</span>
+                <span class="stat-label">Respostas Recebidas</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon bg-purple"><i class="ri-questionnaire-line"></i></div>
+              <div class="stat-info">
+                <span class="stat-value" id="dash-total-perguntas">0</span>
+                <span class="stat-label">Perguntas Cadastradas</span>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon bg-orange"><i class="ri-fire-line"></i></div>
+              <div class="stat-info">
+                <span class="stat-value" id="dash-forms-publicados">0</span>
+                <span class="stat-label">Formulários Ativos</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. GRID DE GRÁFICOS ANALÍTICOS -->
+          <div class="dashboard-charts-grid">
+            <!-- Gráfico 1: Respostas por Formulário -->
+            <div class="card chart-card">
+              <div class="card-header">
+                <h3><i class="ri-bar-chart-fill"></i> Submissões por Formulário</h3>
+              </div>
+              <div class="card-body chart-body">
+                <canvas id="chart-respostas-por-form"></canvas>
+              </div>
+            </div>
+
+            <!-- Gráfico 2: Tipos de Perguntas -->
+            <div class="card chart-card">
+              <div class="card-header">
+                <h3><i class="ri-pie-chart-fill"></i> Tipos de Perguntas no Banco</h3>
+              </div>
+              <div class="card-body chart-body">
+                <canvas id="chart-tipos-perguntas"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. TABELA DE ATIVIDADES RECENTES -->
+          <div class="card table-card" style="margin-top: 2rem;">
+            <div class="table-header">
+              <h3><i class="ri-history-line"></i> Últimas Submissões Recebidas</h3>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Respondente</th>
+                    <th>E-mail</th>
+                    <th>Formulário</th>
+                    <th>Data do Envio</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody-ultimas-respostas">
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="dashboard.js"></script>
+</body>
+</html>
