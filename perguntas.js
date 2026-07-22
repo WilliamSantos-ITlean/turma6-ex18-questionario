@@ -1,4 +1,6 @@
-// script.js - Banco de Perguntas e Modal de Cadastro/Edição
+// script.js - Banco de Perguntas, Modal e Filtros
+
+let todasAsPerguntas = [];
 
 // ==========================================
 // 1. REQUISIÇÕES E CARREGAMENTO DE DADOS
@@ -7,12 +9,45 @@
 async function carregarPerguntas() {
     try {
         const response = await fetch('http://localhost:3000/perguntas');
-        const perguntas = await response.json();
-        renderQuestions(perguntas);
+        todasAsPerguntas = await response.json();
+        aplicarFiltrosPerguntas();
     } catch (error) {
         console.error('Erro ao buscar perguntas:', error);
     }
 }
+
+// ==========================================
+// 2. FILTROS (BUSCA E TIPO DE PERGUNTA)
+// ==========================================
+
+const inputBuscaPergunta = document.getElementById('search-perguntas');
+const selectFiltroTipo = document.getElementById('filter-tipo-pergunta');
+
+function aplicarFiltrosPerguntas() {
+    const termoBusca = inputBuscaPergunta ? inputBuscaPergunta.value.trim().toLowerCase() : '';
+    const tipoSelecionado = selectFiltroTipo ? selectFiltroTipo.value : '';
+
+    const perguntasFiltradas = todasAsPerguntas.filter(pergunta => {
+        const bateTexto = pergunta.enunciado ? pergunta.enunciado.toLowerCase().includes(termoBusca) : true;
+        const bateTipo = tipoSelecionado === '' || pergunta.tipo === tipoSelecionado;
+        return bateTexto && bateTipo;
+    });
+
+    renderQuestions(perguntasFiltradas);
+}
+
+// Event Listeners para Filtros
+if (inputBuscaPergunta) {
+    inputBuscaPergunta.addEventListener('input', aplicarFiltrosPerguntas);
+}
+
+if (selectFiltroTipo) {
+    selectFiltroTipo.addEventListener('change', aplicarFiltrosPerguntas);
+}
+
+// ==========================================
+// 3. RENDERIZAÇÃO DOS CARDS
+// ==========================================
 
 function renderQuestions(perguntas) {
     const traduzirTipo = {
@@ -24,6 +59,17 @@ function renderQuestions(perguntas) {
 
     const lista = document.getElementById('container-perguntas-list');
     if (!lista) return;
+
+    if (perguntas.length === 0) {
+        lista.innerHTML = `
+            <div class="card card-nested" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+                <i class="ri-search-eye-line" style="font-size: 2.5rem; color: var(--text-muted); margin-bottom: 0.5rem; display: block;"></i>
+                <h3 style="color: var(--text-secondary); margin-bottom: 0.25rem;">Nenhuma pergunta encontrada</h3>
+                <p style="color: var(--text-muted); font-size: 0.875rem;">Tente ajustar sua busca ou selecionar outro tipo no filtro.</p>
+            </div>
+        `;
+        return;
+    }
 
     let html = '';
 
@@ -95,7 +141,7 @@ function renderQuestions(perguntas) {
 }
 
 // ==========================================
-// 2. EXCLUSÃO DE PERGUNTA
+// 4. EXCLUSÃO DE PERGUNTA
 // ==========================================
 
 async function excluirPergunta(id) {
@@ -117,7 +163,7 @@ async function excluirPergunta(id) {
 }
 
 // ==========================================
-// 3. CONTROLE DO MODAL DE PERGUNTA
+// 5. CONTROLE DO MODAL DE PERGUNTA
 // ==========================================
 
 const modalPergunta = document.getElementById('modal-pergunta');
@@ -138,11 +184,11 @@ function abrirModal() {
     document.getElementById('modal-pergunta-title').innerHTML = '<i class="ri-questionnaire-line"></i> Cadastrar Nova Pergunta';
     limparErros();
     atualizarSecaoAlternativas();
-    modalPergunta.classList.add('active');
+    if (modalPergunta) modalPergunta.classList.add('active');
 }
 
 function fecharModal() {
-    modalPergunta.classList.remove('active');
+    if (modalPergunta) modalPergunta.classList.remove('active');
     formPergunta.reset();
     limparErros();
 }
@@ -151,7 +197,6 @@ function limparErros() {
     document.querySelectorAll('.field-error').forEach(el => el.textContent = '');
 }
 
-// Atualiza vizualização de alternativas dependendo do tipo selecionado
 function atualizarSecaoAlternativas() {
     const tipo = selectTipo.value;
 
@@ -164,7 +209,6 @@ function atualizarSecaoAlternativas() {
         
         alternativasHint.textContent = `Mínimo ${min}, Máximo ${max} alternativas`;
 
-        // Garante a quantidade mínima de inputs caso haja menos
         const linhasAtuais = containerAlternativas.querySelectorAll('.alternative-input-row').length;
         if (linhasAtuais < min) {
             for (let i = linhasAtuais; i < min; i++) {
@@ -212,7 +256,7 @@ function removerLinhaAlternativa(rowElement) {
 }
 
 // ==========================================
-// 4. SUBMISSÃO DO FORMULÁRIO DE PERGUNTA (POST / PUT)
+// 6. SUBMISSÃO DO FORMULÁRIO DE PERGUNTA
 // ==========================================
 
 async function salvarPergunta(event) {
@@ -226,13 +270,11 @@ async function salvarPergunta(event) {
 
     let temErro = false;
 
-    // Validação de Enunciado
     if (!enunciado) {
         document.getElementById('error-pergunta-enunciado').textContent = 'O enunciado da pergunta é obrigatório.';
         temErro = true;
     }
 
-    // Validação de Alternativas
     let alternativasArr = [];
     if (tipo === 'multipla_escolha' || tipo === 'checkbox') {
         const altInputs = containerAlternativas.querySelectorAll('.alt-item');
@@ -252,7 +294,6 @@ async function salvarPergunta(event) {
             temErro = true;
         }
 
-        // Checar duplicatas
         const unicos = new Set(alternativasArr.map(a => a.toLowerCase()));
         if (unicos.size !== alternativasArr.length) {
             document.getElementById('error-alternativas').textContent = 'As alternativas não podem ter textos duplicados.';
@@ -294,7 +335,6 @@ async function salvarPergunta(event) {
     }
 }
 
-// Editar Pergunta existente
 async function prepararEdicao(id) {
     try {
         const response = await fetch(`http://localhost:3000/perguntas/${id}`);
@@ -314,7 +354,6 @@ async function prepararEdicao(id) {
             pergunta.alternativas.forEach(alt => {
                 adicionarLinhaAlternativa(alt);
             });
-            // Preenche o valor dos inputs gerados
             const inputs = containerAlternativas.querySelectorAll('.alt-item');
             pergunta.alternativas.forEach((alt, idx) => {
                 if (inputs[idx]) inputs[idx].value = alt;
@@ -338,7 +377,6 @@ if (selectTipo) selectTipo.addEventListener('change', () => {
 if (btnAddAlternativa) btnAddAlternativa.addEventListener('click', () => adicionarLinhaAlternativa());
 if (formPergunta) formPergunta.addEventListener('submit', salvarPergunta);
 
-// Evento para fechar modal clicando fora da caixa
 window.addEventListener('click', (e) => {
     if (e.target === modalPergunta) fecharModal();
 });
